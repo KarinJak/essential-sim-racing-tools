@@ -1,0 +1,169 @@
+/* ── Two-column layout (inputs | results) ─────────── */
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-xl);
+  align-items: start;
+}
+
+@media (max-width: 960px) {
+  .layout { grid-template-columns: 1fr; }
+}
+
+/* ── Left: Inputs ─────────────────────────────────── */
+.inputsPanel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.section {
+  padding: var(--space-lg);
+}
+
+.sectionSim {
+  border-color: rgba(0, 212, 255, 0.2);
+}
+
+.sectionSim:hover {
+  border-color: rgba(0, 212, 255, 0.4);
+  box-shadow: var(--shadow-card), var(--shadow-glow-cyan);
+}
+
+.sectionTitle {
+  font-size: 1rem;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+  letter-spacing: 0.04em;
+}
+
+.sectionIcon {
+  font-size: 1.1rem;
+}
+
+.inputRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md);
+}
+
+.inputRow3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--space-md);
+}
+
+/* ── Presets ──────────────────────────────────────── */
+.presets {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+  margin-top: var(--space-md);
+}
+
+.presetBtn {
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  background: rgba(0, 212, 255, 0.08);
+  border: 1px solid rgba(0, 212, 255, 0.2);
+  color: var(--accent-secondary);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.presetBtn:hover {
+  background: rgba(0, 212, 255, 0.16);
+  border-color: rgba(0, 212, 255, 0.4);
+}
+
+.presetBtnActive {
+  background: rgba(0, 212, 255, 0.2);
+  border-color: var(--accent-secondary);
+  box-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+}
+
+/* ── Right: Results ───────────────────────────────── */
+.resultsPanel {
+  position: sticky;
+  top: calc(var(--nav-height) + var(--space-lg));
+}
+
+.resultsCard {
+  padding: var(--space-lg);
+}
+
+.resultsHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-lg);
+}
+
+.resultsTitle {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+/* Key metrics */
+.keyMetrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.keyMetric {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Groups */
+.resultsGroup {
+  padding: var(--space-md) 0;
+}
+
+.groupLabel {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: var(--space-sm);
+}
+
+.resultGrid2 {
+  grid-template-columns: 1fr 1fr;
+}
+
+/* Sim active highlight */
+.simActive {
+  background: rgba(0, 212, 255, 0.03);
+  border-radius: var(--radius-sm);
+  padding: var(--space-sm) 0;
+}
+
+.simNote {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  background: rgba(0, 212, 255, 0.07);
+  border: 1px solid rgba(0, 212, 255, 0.2);
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.simNote span { font-size: 1rem; flex-shrink: 0; }
