@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## unreleased (2026-03-11)
+
+### Added
+
+### Changed
+
+- Update BOP Calculator's auto-detect seconds per 1% restrictor to only use pairs where ballast differs but restrictor stays the same
+
+### Removed
+
 ## 0.2.0 (2026-03-11)
 
 ### Added
@@ -44,4 +54,3 @@
 ### Changed
 
 ### Removed
-

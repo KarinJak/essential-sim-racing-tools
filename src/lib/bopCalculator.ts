@@ -176,7 +176,11 @@ export function autoDetectSecondsPer10kg(
         const ballastDiff = Math.abs(a.currentBallastKg - b.currentBallastKg);
         const restrictorDiff = Math.abs(a.currentRestrictorPct - b.currentRestrictorPct);
 
+        // Only use pairs where ballast differs but restrictor stays the same.
+        // Mixed pairs (both differ) would require the other setting to compensate,
+        // which may be inaccurate.
         if (ballastDiff < 1) continue;
+        if (restrictorDiff >= 1) continue;
 
         const timeA = entryToSeconds(a);
         const timeB = entryToSeconds(b);
@@ -187,15 +191,7 @@ export function autoDetectSecondsPer10kg(
         const heavierTime = entryToSeconds(heavier);
         const lighterTime = entryToSeconds(lighter);
 
-        // Account for restrictor difference if any
-        let adjustedTimeDiff = heavierTime - lighterTime;
-        if (restrictorDiff > 0) {
-          const restrictorTimeDiff =
-            (heavier.currentRestrictorPct - lighter.currentRestrictorPct) *
-            settings.secondsPer1Restrictor;
-          adjustedTimeDiff -= restrictorTimeDiff;
-        }
-
+        const adjustedTimeDiff = heavierTime - lighterTime;
         const calculated = adjustedTimeDiff / (ballastDiff / 10);
 
         // Sanity check
@@ -283,7 +279,11 @@ export function autoDetectSecondsPer1Restrictor(
         const restrictorDiff = Math.abs(a.currentRestrictorPct - b.currentRestrictorPct);
         const ballastDiff = Math.abs(a.currentBallastKg - b.currentBallastKg);
 
+        // Only use pairs where restrictor differs but ballast stays the same.
+        // Mixed pairs (both differ) would require the other setting to compensate,
+        // which may be inaccurate.
         if (restrictorDiff < 1) continue;
+        if (ballastDiff >= 1) continue;
 
         const timeA = entryToSeconds(a);
         const timeB = entryToSeconds(b);
@@ -294,15 +294,7 @@ export function autoDetectSecondsPer1Restrictor(
         const moreRestrictedTime = entryToSeconds(moreRestricted);
         const lessRestrictedTime = entryToSeconds(lessRestricted);
 
-        // Account for ballast difference if any
-        let adjustedTimeDiff = moreRestrictedTime - lessRestrictedTime;
-        if (ballastDiff > 0) {
-          const ballastTimeDiff =
-            ((moreRestricted.currentBallastKg - lessRestricted.currentBallastKg) / 10) *
-            settings.secondsPer10kg;
-          adjustedTimeDiff -= ballastTimeDiff;
-        }
-
+        const adjustedTimeDiff = moreRestrictedTime - lessRestrictedTime;
         const calculated = adjustedTimeDiff / restrictorDiff;
 
         // Sanity check: expect roughly 0.01–2.0 sec per 1%
