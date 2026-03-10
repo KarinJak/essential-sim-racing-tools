@@ -37,6 +37,37 @@ function parseNum(val: string, fallback: number = 0): number {
   return isNaN(n) ? fallback : Math.max(0, n);
 }
 
+/**
+ * Display a numeric value in an input field.
+ * Returns '' only when the value is the initial default 0 AND the field is empty,
+ * but returns '0' when the user has explicitly typed 0.
+ * We track this by storing raw strings in a separate map.
+ */
+const rawInputs = new Map<string, string>();
+
+function numericDisplay(key: string, value: number): string {
+  const raw = rawInputs.get(key);
+  // If the raw input is a string that parses to the current value (or is ''),
+  // use the raw string to preserve user input like '0', '00', etc.
+  if (raw !== undefined) return raw;
+  // Initial state: show empty for 0
+  return value === 0 ? '' : String(value);
+}
+
+function handleNumericChange(
+  key: string,
+  rawValue: string,
+  max: number,
+  allowDecimals: boolean = false,
+): number {
+  const filterRegex = allowDecimals ? /[^0-9.]/g : /[^0-9]/g;
+  const raw = rawValue.replace(filterRegex, '');
+  rawInputs.set(key, raw);
+  if (raw === '') return 0;
+  const parsed = allowDecimals ? parseFloat(raw) : parseInt(raw, 10);
+  return isNaN(parsed) ? 0 : Math.min(max, parsed);
+}
+
 // ── Component ──────────────────────────────────────────────────────
 
 export default function BopCalculator() {
@@ -212,37 +243,34 @@ export default function BopCalculator() {
                 <div className={styles.lapTimeGroup}>
                   <input
                     className={styles.lapTimeInput}
-                    type="number"
-                    min={0}
-                    max={59}
-                    value={car.lapTimeMinutes || ''}
-                    onChange={(e) =>
-                      updateCar(car.id, { lapTimeMinutes: parseNum(e.target.value) })
-                    }
+                    type="text"
+                    inputMode="numeric"
+                    value={numericDisplay(`${car.id}-min`, car.lapTimeMinutes)}
+                    onChange={(e) => {
+                      updateCar(car.id, { lapTimeMinutes: handleNumericChange(`${car.id}-min`, e.target.value, 59) });
+                    }}
                     placeholder="M"
                   />
                   <span className={styles.lapTimeSep}>:</span>
                   <input
                     className={styles.lapTimeInput}
-                    type="number"
-                    min={0}
-                    max={59}
-                    value={car.lapTimeSeconds || ''}
-                    onChange={(e) =>
-                      updateCar(car.id, { lapTimeSeconds: parseNum(e.target.value) })
-                    }
+                    type="text"
+                    inputMode="numeric"
+                    value={numericDisplay(`${car.id}-sec`, car.lapTimeSeconds)}
+                    onChange={(e) => {
+                      updateCar(car.id, { lapTimeSeconds: handleNumericChange(`${car.id}-sec`, e.target.value, 59) });
+                    }}
                     placeholder="SS"
                   />
                   <span className={styles.lapTimeSep}>.</span>
                   <input
                     className={styles.lapTimeInput}
-                    type="number"
-                    min={0}
-                    max={999}
-                    value={car.lapTimeMilliseconds || ''}
-                    onChange={(e) =>
-                      updateCar(car.id, { lapTimeMilliseconds: parseNum(e.target.value) })
-                    }
+                    type="text"
+                    inputMode="numeric"
+                    value={numericDisplay(`${car.id}-ms`, car.lapTimeMilliseconds)}
+                    onChange={(e) => {
+                      updateCar(car.id, { lapTimeMilliseconds: handleNumericChange(`${car.id}-ms`, e.target.value, 999) });
+                    }}
                     placeholder="mmm"
                   />
                 </div>
@@ -250,26 +278,24 @@ export default function BopCalculator() {
                 <div className={styles.currentBopGroup}>
                   <input
                     className={styles.bopInput}
-                    type="number"
-                    min={0}
-                    max={200}
-                    value={car.currentBallastKg || ''}
-                    onChange={(e) =>
-                      updateCar(car.id, { currentBallastKg: parseNum(e.target.value) })
-                    }
+                    type="text"
+                    inputMode="numeric"
+                    value={numericDisplay(`${car.id}-ballast`, car.currentBallastKg)}
+                    onChange={(e) => {
+                      updateCar(car.id, { currentBallastKg: handleNumericChange(`${car.id}-ballast`, e.target.value, 200) });
+                    }}
                     placeholder="0"
                     title="Current ballast (kg)"
                   />
                   <span className={styles.bopInputLabel}>kg</span>
                   <input
                     className={styles.bopInput}
-                    type="number"
-                    min={0}
-                    max={100}
-                    value={car.currentRestrictorPct || ''}
-                    onChange={(e) =>
-                      updateCar(car.id, { currentRestrictorPct: parseNum(e.target.value) })
-                    }
+                    type="text"
+                    inputMode="numeric"
+                    value={numericDisplay(`${car.id}-restr`, car.currentRestrictorPct)}
+                    onChange={(e) => {
+                      updateCar(car.id, { currentRestrictorPct: handleNumericChange(`${car.id}-restr`, e.target.value, 100) });
+                    }}
                     placeholder="0"
                     title="Current restrictor (%)"
                   />
@@ -314,13 +340,11 @@ export default function BopCalculator() {
                 <input
                   id="bop-sec-per-10kg"
                   className="form-input"
-                  type="number"
-                  min={0.01}
-                  max={1}
-                  step={0.01}
-                  value={settings.secondsPer10kg}
+                  type="text"
+                  inputMode="decimal"
+                  value={numericDisplay('settings-secPer10kg', settings.secondsPer10kg)}
                   onChange={(e) => {
-                    const v = parseNum(e.target.value, 0.15);
+                    const v = handleNumericChange('settings-secPer10kg', e.target.value, 1, true);
                     setSettings((s) => ({ ...s, secondsPer10kg: v }));
                     setSelectedPreset(null);
                   }}
@@ -334,17 +358,16 @@ export default function BopCalculator() {
                 <input
                   id="bop-sec-per-rest"
                   className="form-input"
-                  type="number"
-                  min={0.01}
-                  max={2}
-                  step={0.01}
-                  value={settings.secondsPer1Restrictor}
-                  onChange={(e) =>
+                  type="text"
+                  inputMode="decimal"
+                  value={numericDisplay('settings-secPerRestr', settings.secondsPer1Restrictor)}
+                  onChange={(e) => {
+                    const v = handleNumericChange('settings-secPerRestr', e.target.value, 2, true);
                     setSettings((s) => ({
                       ...s,
-                      secondsPer1Restrictor: parseNum(e.target.value, 0.17),
-                    }))
-                  }
+                      secondsPer1Restrictor: v,
+                    }));
+                  }}
                 />
                 <p className="input-hint">Seconds lost per 1 % restrictor</p>
               </div>
@@ -355,14 +378,12 @@ export default function BopCalculator() {
                 <input
                   id="bop-max-ballast"
                   className="form-input"
-                  type="number"
-                  min={10}
-                  max={200}
-                  step={5}
-                  value={settings.maxBallastKg}
-                  onChange={(e) =>
-                    setSettings((s) => ({ ...s, maxBallastKg: parseNum(e.target.value, 50) }))
-                  }
+                  type="text"
+                  inputMode="numeric"
+                  value={numericDisplay('settings-maxBallast', settings.maxBallastKg)}
+                  onChange={(e) => {
+                    setSettings((s) => ({ ...s, maxBallastKg: handleNumericChange('settings-maxBallast', e.target.value, 200) }));
+                  }}
                 />
                 <p className="input-hint">Above this → switch to restrictor</p>
               </div>

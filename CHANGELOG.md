@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## unreleased (2026-03-xx)
+
+### Added
+
+### Changed
+
+- Update BOP Calculator's input box to input `0` as a first digit of milliseconds 
+
+### Removed
+
 ## 0.1.2 (2026-03-10)
 
 ### Added
