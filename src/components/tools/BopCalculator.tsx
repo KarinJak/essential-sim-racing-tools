@@ -4,6 +4,7 @@ import { useState, useMemo, useCallback } from 'react';
 import {
   calculateBop,
   autoDetectSecondsPer10kg,
+  autoDetectSecondsPer1Restrictor,
   formatLapTime,
   TRACK_PRESETS,
   DEFAULT_BOP_SETTINGS,
@@ -78,6 +79,7 @@ export default function BopCalculator() {
 
   const output = useMemo(() => calculateBop(cars, settings), [cars, settings]);
   const autoDetect = useMemo(() => autoDetectSecondsPer10kg(cars, settings), [cars, settings]);
+  const autoDetectRestrictor = useMemo(() => autoDetectSecondsPer1Restrictor(cars, settings), [cars, settings]);
 
   // Unique car names already entered (for name suggestions)
   const existingNames = useMemo(() => {
@@ -93,6 +95,11 @@ export default function BopCalculator() {
     if (!autoDetect) return;
     setSettings((s) => ({ ...s, secondsPer10kg: autoDetect.secondsPer10kg }));
     setSelectedPreset('auto-detected');
+  }
+
+  function applyAutoDetectRestrictor() {
+    if (!autoDetectRestrictor) return;
+    setSettings((s) => ({ ...s, secondsPer1Restrictor: autoDetectRestrictor.secondsPer1Restrictor }));
   }
 
   // ── Car list handlers ──────────────────────────────────────────
@@ -177,6 +184,42 @@ export default function BopCalculator() {
               </button>
             )}
             {settings.secondsPer10kg === autoDetect.secondsPer10kg && (
+              <span className={styles.autoDetectApplied}>✓ Applied</span>
+            )}
+          </div>
+        )}
+
+        {/* Auto-Detect Restrictor Banner */}
+        {autoDetectRestrictor && (
+          <div className={styles.autoDetectBanner}>
+            <div className={styles.autoDetectContent}>
+              <div className={styles.autoDetectIcon}>🔬</div>
+              <div className={styles.autoDetectText}>
+                <strong>Restrictor Auto-Detected!</strong>{' '}
+                {autoDetectRestrictor.pairs.length === 1 ? (
+                  <>
+                    Using &quot;{autoDetectRestrictor.pairs[0].carName}&quot; with{' '}
+                    {autoDetectRestrictor.pairs[0].lowerRestrictorPct}% vs{' '}
+                    {autoDetectRestrictor.pairs[0].higherRestrictorPct}% restrictor
+                  </>
+                ) : (
+                  <>
+                    Averaged from {autoDetectRestrictor.pairs.length} pairs across {autoDetectRestrictor.carCount} car
+                    {autoDetectRestrictor.carCount > 1 ? 's' : ''}
+                  </>
+                )}
+                , the calculated value is{' '}
+                <strong className={styles.autoDetectValue}>
+                  {autoDetectRestrictor.secondsPer1Restrictor}s / 1%
+                </strong>
+              </div>
+            </div>
+            {settings.secondsPer1Restrictor !== autoDetectRestrictor.secondsPer1Restrictor && (
+              <button className={styles.autoDetectApply} onClick={applyAutoDetectRestrictor}>
+                Apply
+              </button>
+            )}
+            {settings.secondsPer1Restrictor === autoDetectRestrictor.secondsPer1Restrictor && (
               <span className={styles.autoDetectApplied}>✓ Applied</span>
             )}
           </div>

@@ -4,6 +4,8 @@
 
 ### Added
 
+- Add auto-detect seconds per 1% restrictor to BOP Calculator
+
 ### Changed
 
 - Update BOP Calculator's input box to input `0` as a first digit of milliseconds 
@@ -14,9 +16,7 @@
 
 ### Added
 
-- Add BOP Calculator to allow delete all value in input field
-- Add BOP Calculator to show duplicate hint when car name is duplicated
-- Add BOP Calculator to show auto-detected value when car name is duplicated
+- Add BOP Calculator
 - Add prettier
 
 ### Changed

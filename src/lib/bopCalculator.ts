@@ -227,6 +227,113 @@ export function autoDetectSecondsPer10kg(
   };
 }
 
+// ── Auto-Detect seconds_per_1_restrictor ─────────────────────────────
+
+export interface DetectedRestrictorPair {
+  carName: string;
+  lowerRestrictorPct: number;
+  higherRestrictorPct: number;
+  lowerTime: number;
+  higherTime: number;
+  calculatedSecPer1Restrictor: number;
+}
+
+export interface AutoDetectRestrictorResult {
+  detected: boolean;
+  /** Average seconds_per_1_restrictor across all detected pairs */
+  secondsPer1Restrictor: number;
+  /** Individual pair calculations */
+  pairs: DetectedRestrictorPair[];
+  /** How many unique cars contributed to the average */
+  carCount: number;
+}
+
+/**
+ * If the user enters the same car name twice with different restrictor values,
+ * we can derive the exact seconds_per_1_restrictor from the lap time difference.
+ * When multiple cars have pairs, we average all to get a more accurate result.
+ */
+export function autoDetectSecondsPer1Restrictor(
+  cars: BopCarEntry[],
+  settings: BopSettings,
+): AutoDetectRestrictorResult | null {
+  const validCars = cars.filter((c) => c.name.trim() !== '' && entryToSeconds(c) > 0);
+
+  // Group by normalized name (lowercase, trimmed)
+  const groups = new Map<string, BopCarEntry[]>();
+  for (const car of validCars) {
+    const key = car.name.trim().toLowerCase();
+    const list = groups.get(key) || [];
+    list.push(car);
+    groups.set(key, list);
+  }
+
+  const allPairs: DetectedRestrictorPair[] = [];
+  const contributingCars = new Set<string>();
+
+  // Look for pairs with different restrictor in every group
+  for (const [, entries] of groups) {
+    if (entries.length < 2) continue;
+
+    for (let i = 0; i < entries.length; i++) {
+      for (let j = i + 1; j < entries.length; j++) {
+        const a = entries[i];
+        const b = entries[j];
+
+        const restrictorDiff = Math.abs(a.currentRestrictorPct - b.currentRestrictorPct);
+        const ballastDiff = Math.abs(a.currentBallastKg - b.currentBallastKg);
+
+        if (restrictorDiff < 1) continue;
+
+        const timeA = entryToSeconds(a);
+        const timeB = entryToSeconds(b);
+        if (Math.abs(timeA - timeB) < 0.001) continue;
+
+        const moreRestricted = a.currentRestrictorPct > b.currentRestrictorPct ? a : b;
+        const lessRestricted = a.currentRestrictorPct > b.currentRestrictorPct ? b : a;
+        const moreRestrictedTime = entryToSeconds(moreRestricted);
+        const lessRestrictedTime = entryToSeconds(lessRestricted);
+
+        // Account for ballast difference if any
+        let adjustedTimeDiff = moreRestrictedTime - lessRestrictedTime;
+        if (ballastDiff > 0) {
+          const ballastTimeDiff =
+            ((moreRestricted.currentBallastKg - lessRestricted.currentBallastKg) / 10) *
+            settings.secondsPer10kg;
+          adjustedTimeDiff -= ballastTimeDiff;
+        }
+
+        const calculated = adjustedTimeDiff / restrictorDiff;
+
+        // Sanity check: expect roughly 0.01–2.0 sec per 1%
+        if (calculated > 0.005 && calculated < 2.0) {
+          allPairs.push({
+            carName: moreRestricted.name,
+            lowerRestrictorPct: lessRestricted.currentRestrictorPct,
+            higherRestrictorPct: moreRestricted.currentRestrictorPct,
+            lowerTime: lessRestrictedTime,
+            higherTime: moreRestrictedTime,
+            calculatedSecPer1Restrictor: Math.round(calculated * 1000) / 1000,
+          });
+          contributingCars.add(moreRestricted.name.trim().toLowerCase());
+        }
+      }
+    }
+  }
+
+  if (allPairs.length === 0) return null;
+
+  // Average across all pairs
+  const avg = allPairs.reduce((sum, p) => sum + p.calculatedSecPer1Restrictor, 0) / allPairs.length;
+
+  return {
+    detected: true,
+    secondsPer1Restrictor: Math.round(avg * 1000) / 1000,
+    pairs: allPairs,
+    carCount: contributingCars.size,
+  };
+}
+
 // ── Main Calculation ─────────────────────────────────────────────────
 
 export function calculateBop(cars: BopCarEntry[], settings: BopSettings): BopOutput | null {
