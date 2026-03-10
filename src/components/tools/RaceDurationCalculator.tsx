@@ -27,11 +27,24 @@ function parseNum(val: string, fallback: number = 0): number {
 // ── Component ──────────────────────────────────────────────────────
 export default function RaceDurationCalculator() {
   const [inputs, setInputs] = useState<RaceInputs>(DEFAULT_INPUTS);
+  // Separate raw string for the time-multiplier input so the user can
+  // fully clear the field before typing a new number.
+  const [timeMultiplierRaw, setTimeMultiplierRaw] = useState<string>(
+    String(DEFAULT_INPUTS.timeMultiplier)
+  );
 
   const results = useMemo(() => calculateRace(inputs), [inputs]);
 
   function set<K extends keyof RaceInputs>(key: K, value: RaceInputs[K]) {
     setInputs((prev) => ({ ...prev, [key]: value }));
+  }
+
+  /** Commit the raw multiplier string, clamping to [1, 600]. */
+  function commitMultiplier(raw: string) {
+    const n = parseInt(raw, 10);
+    const clamped = isNaN(n) ? 1 : Math.min(600, Math.max(1, n));
+    setTimeMultiplierRaw(String(clamped));
+    set('timeMultiplier', clamped);
   }
 
   const isSimTime = inputs.timeMultiplier > 1;
@@ -223,22 +236,26 @@ export default function RaceDurationCalculator() {
               min={1}
               max={600}
               step={1}
-              value={inputs.timeMultiplier}
-              onChange={(e) => set('timeMultiplier', Math.max(1, parseNum(e.target.value, 1)))}
-              placeholder="60"
+              value={timeMultiplierRaw}
+              onChange={(e) => setTimeMultiplierRaw(e.target.value)}
+              onBlur={(e) => commitMultiplier(e.target.value)}
+              placeholder="1"
             />
             <p className="input-hint">
               ×1 = real time &nbsp;|&nbsp; ×60 = 1 real minute = 1 in-game hour &nbsp;|&nbsp; ×1440 = 1 real minute = 1 in-game day
             </p>
           </div>
 
-          {/* Quick presets */}
+          {/* Quick presets — increments of 5 */}
           <div className={styles.presets}>
-            {[1, 6, 12, 24, 60].map((m) => (
+            {[1, 5, 10, 15, 20, 25, 30, 60].map((m) => (
               <button
                 key={m}
                 className={`${styles.presetBtn} ${inputs.timeMultiplier === m ? styles.presetBtnActive : ''}`}
-                onClick={() => set('timeMultiplier', m)}
+                onClick={() => {
+                  setTimeMultiplierRaw(String(m));
+                  set('timeMultiplier', m);
+                }}
               >
                 ×{m}
               </button>
