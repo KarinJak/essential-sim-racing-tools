@@ -81,7 +81,10 @@
   gap: var(--space-md);
 }
 
-.sectionHeader p { max-width: 480px; font-size: 1rem; }
+.sectionHeader p {
+  max-width: 480px;
+  font-size: 1rem;
+}
 
 .toolsGrid {
   display: grid;
@@ -104,7 +107,9 @@
   justify-content: space-between;
 }
 
-.toolIcon { font-size: 2rem; }
+.toolIcon {
+  font-size: 2rem;
+}
 
 .toolCardBody {
   flex: 1;
@@ -143,7 +148,11 @@
   border-top: 1px solid var(--border-subtle);
 }
 
-.toolTags { display: flex; flex-wrap: wrap; gap: 6px; }
+.toolTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
 
 .toolTag {
   font-size: 0.68rem;
@@ -151,7 +160,7 @@
   letter-spacing: 0.06em;
   text-transform: uppercase;
   padding: 2px 8px;
-  background: rgba(255,255,255,0.04);
+  background: rgba(255, 255, 255, 0.04);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-full);
   color: var(--text-muted);
@@ -163,9 +172,14 @@
   transition: transform var(--transition-fast);
 }
 
-.toolCard:hover .toolArrow { transform: translateX(4px); }
+.toolCard:hover .toolArrow {
+  transform: translateX(4px);
+}
 
-.toolCardSoon { opacity: 0.5; cursor: default; }
+.toolCardSoon {
+  opacity: 0.5;
+  cursor: default;
+}
 
 .toolCardSoon:hover {
   transform: none;

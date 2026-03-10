@@ -17,11 +17,17 @@
   transition: color var(--transition-fast);
 }
 
-.breadcrumbLink:hover { color: var(--accent-primary); }
+.breadcrumbLink:hover {
+  color: var(--accent-primary);
+}
 
-.breadcrumbSep { color: var(--border-default); }
+.breadcrumbSep {
+  color: var(--border-default);
+}
 
-.breadcrumbCurrent { color: var(--text-secondary); }
+.breadcrumbCurrent {
+  color: var(--text-secondary);
+}
 
 /* Page Header */
 .pageHeader {

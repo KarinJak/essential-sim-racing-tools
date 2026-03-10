@@ -1,13 +1,13 @@
 # CHANGELOG
 
-## 0.1.2 (2026-03-11)
+## 0.1.2 (2026-03-10)
 
 ### Added
 
 - Add BOP Calculator to allow delete all value in input field
 - Add BOP Calculator to show duplicate hint when car name is duplicated
 - Add BOP Calculator to show auto-detected value when car name is duplicated
-
+- Add prettier
 
 ### Changed
 

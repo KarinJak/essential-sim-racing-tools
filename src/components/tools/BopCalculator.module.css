@@ -7,7 +7,9 @@
 }
 
 @media (max-width: 960px) {
-  .layout { grid-template-columns: 1fr; }
+  .layout {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ── Left: Inputs ─────────────────────────────────── */
@@ -45,7 +47,9 @@
 }
 
 @media (max-width: 480px) {
-  .presetGrid { grid-template-columns: 1fr; }
+  .presetGrid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .presetCard {
@@ -214,7 +218,9 @@
   box-shadow: 0 0 0 2px rgba(232, 255, 0, 0.1);
 }
 
-.carNameInput::placeholder { color: var(--text-muted); }
+.carNameInput::placeholder {
+  color: var(--text-muted);
+}
 
 .carNameWrapper {
   position: relative;
@@ -380,7 +386,9 @@
 }
 
 @media (max-width: 480px) {
-  .advancedBody { grid-template-columns: 1fr; }
+  .advancedBody {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ── Right: Results ───────────────────────────────── */

@@ -7,7 +7,9 @@
 }
 
 @media (max-width: 960px) {
-  .layout { grid-template-columns: 1fr; }
+  .layout {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ── Left: Inputs ─────────────────────────────────── */
@@ -166,4 +168,7 @@
   line-height: 1.6;
 }
 
-.simNote span { font-size: 1rem; flex-shrink: 0; }
+.simNote span {
+  font-size: 1rem;
+  flex-shrink: 0;
+}

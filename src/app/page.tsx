@@ -7,7 +7,8 @@ const tools = [
     name: 'Race Duration Calculator',
     game: 'Automobilista 2',
     gameShort: 'AMS2',
-    description: 'Calculate total laps, fuel requirements, pit stops, and simulated race time using in-game time multipliers.',
+    description:
+      'Calculate total laps, fuel requirements, pit stops, and simulated race time using in-game time multipliers.',
     icon: '⏱️',
     accentColor: 'yellow',
     tags: ['Laps', 'Fuel', 'Pit Stops', 'Time Sim'],
@@ -18,7 +19,8 @@ const tools = [
     name: 'BoP Calculator',
     game: 'Assetto Corsa',
     gameShort: 'AC',
-    description: 'Calculate recommended Ballast and Restrictor values to balance your race grid based on fastest lap times.',
+    description:
+      'Calculate recommended Ballast and Restrictor values to balance your race grid based on fastest lap times.',
     icon: '⚖️',
     accentColor: 'cyan',
     tags: ['Ballast', 'Restrictor', 'Balance'],
@@ -38,7 +40,8 @@ export default function HomePage() {
           </div>
 
           <h1 className={`animate-fade-in-up-delay-1 ${styles.heroTitle}`}>
-            Race Smarter.<br />
+            Race Smarter.
+            <br />
             <span className={styles.heroAccent}>Data-Driven.</span>
           </h1>
 
@@ -75,7 +78,9 @@ export default function HomePage() {
               <Link key={tool.id} href={tool.href} className={`glass-card ${styles.toolCard}`}>
                 <div className={styles.toolCardTop}>
                   <span className={styles.toolIcon}>{tool.icon}</span>
-                  <span className={`badge ${tool.accentColor === 'yellow' ? 'badge-yellow' : 'badge-cyan'}`}>
+                  <span
+                    className={`badge ${tool.accentColor === 'yellow' ? 'badge-yellow' : 'badge-cyan'}`}
+                  >
                     {tool.gameShort}
                   </span>
                 </div>
@@ -89,7 +94,9 @@ export default function HomePage() {
                 <div className={styles.toolCardFooter}>
                   <div className={styles.toolTags}>
                     {tool.tags.map((tag) => (
-                      <span key={tag} className={styles.toolTag}>{tag}</span>
+                      <span key={tag} className={styles.toolTag}>
+                        {tag}
+                      </span>
                     ))}
                   </div>
                   <span className={styles.toolArrow}>→</span>
@@ -105,7 +112,9 @@ export default function HomePage() {
               </div>
               <div className={styles.toolCardBody}>
                 <h3 className={styles.toolName}>More Tools</h3>
-                <p className={styles.toolDesc}>Tyre strategy calculators, weather planners, and more on the way.</p>
+                <p className={styles.toolDesc}>
+                  Tyre strategy calculators, weather planners, and more on the way.
+                </p>
               </div>
             </div>
           </div>

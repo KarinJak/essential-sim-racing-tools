@@ -11,12 +11,12 @@ export interface RaceInputs {
   // Formation lap
   hasFormationLap: boolean;
   // Fuel
-  fuelPerLap: number;        // litres
-  tankCapacity: number;      // litres
+  fuelPerLap: number; // litres
+  tankCapacity: number; // litres
   // Pit stop
-  pitStopDuration: number;   // seconds
+  pitStopDuration: number; // seconds
   // Simulated time
-  timeMultiplier: number;    // e.g. 60 means 1 real min = 60 in-game minutes
+  timeMultiplier: number; // e.g. 60 means 1 real min = 60 in-game minutes
 }
 
 export interface RaceResults {
@@ -30,8 +30,8 @@ export interface RaceResults {
   timeLostInPitsSeconds: number;
   effectiveRaceTimeSeconds: number;
   // Simulated time results
-  realTimeDurationSeconds: number;   // how long you sit at PC (real time)
-  inGameDurationSeconds: number;     // in-game time that passes
+  realTimeDurationSeconds: number; // how long you sit at PC (real time)
+  inGameDurationSeconds: number; // in-game time that passes
   // Formatted
   formatted: {
     lapTime: string;
@@ -56,14 +56,14 @@ export function toSeconds(h: number, m: number, s: number, ms: number = 0): numb
 /** Formats seconds as M:SS.mmm or H:MM:SS.mmm */
 export function formatTime(totalSec: number): string {
   if (isNaN(totalSec) || !isFinite(totalSec) || totalSec < 0) return '—';
-  const h   = Math.floor(totalSec / 3600);
-  const m   = Math.floor((totalSec % 3600) / 60);
-  const s   = Math.floor(totalSec % 60);
-  const ms  = Math.round((totalSec - Math.floor(totalSec)) * 1000);
+  const h = Math.floor(totalSec / 3600);
+  const m = Math.floor((totalSec % 3600) / 60);
+  const s = Math.floor(totalSec % 60);
+  const ms = Math.round((totalSec - Math.floor(totalSec)) * 1000);
 
-  const hStr  = h > 0 ? `${h}:` : '';
-  const mStr  = h > 0 ? String(m).padStart(2, '0') : String(m);
-  const sStr  = String(s).padStart(2, '0');
+  const hStr = h > 0 ? `${h}:` : '';
+  const mStr = h > 0 ? String(m).padStart(2, '0') : String(m);
+  const sStr = String(s).padStart(2, '0');
   const msStr = String(ms).padStart(3, '0');
 
   return `${hStr}${mStr}:${sStr}.${msStr}`;
@@ -101,7 +101,7 @@ export function calculateRace(inputs: RaceInputs): RaceResults {
 
   // ── Convert base values ──
   const raceDurationSec = toSeconds(raceDurationHours, raceDurationMinutes, 0);
-  const lapTimeSec      = toSeconds(0, lapTimeMinutes, lapTimeSeconds, lapTimeMilliseconds);
+  const lapTimeSec = toSeconds(0, lapTimeMinutes, lapTimeSeconds, lapTimeMilliseconds);
 
   // Guard against zero/invalid values
   if (lapTimeSec <= 0 || raceDurationSec <= 0) {
@@ -110,50 +110,48 @@ export function calculateRace(inputs: RaceInputs): RaceResults {
 
   // ── Formation lap (AMS2 formation lap is ~120% lap time) ──
   const formationLapTimeSec = hasFormationLap ? lapTimeSec * 1.2 : 0;
-  const racingTime          = raceDurationSec - formationLapTimeSec;
+  const racingTime = raceDurationSec - formationLapTimeSec;
 
   // ── Total laps (racing laps only, formation is separate) ──
   const totalLaps = Math.floor(racingTime / lapTimeSec);
   if (totalLaps <= 0) return buildEmptyResults();
 
   // ── Fuel calculations ──
-  const fuelLaps     = totalLaps + (hasFormationLap ? 1 : 0);
+  const fuelLaps = totalLaps + (hasFormationLap ? 1 : 0);
   const fuelRequired = fuelLaps * fuelPerLap;
-  const pitStops     = tankCapacity > 0
-    ? Math.max(0, Math.ceil(fuelRequired / tankCapacity) - 1)
-    : 0;
+  const pitStops = tankCapacity > 0 ? Math.max(0, Math.ceil(fuelRequired / tankCapacity) - 1) : 0;
   const timeLostInPits = pitStops * pitStopDuration;
 
   // ── Race time ──
-  const totalRaceTime     = formationLapTimeSec + totalLaps * lapTimeSec;
+  const totalRaceTime = formationLapTimeSec + totalLaps * lapTimeSec;
   const effectiveRaceTime = totalRaceTime + timeLostInPits;
 
   // ── Simulated time ──
   // realTimeDuration = configured session duration
   // inGameDuration   = realTimeDuration × timeMultiplier
   const realTimeDurationSec = raceDurationSec;
-  const inGameDurationSec   = realTimeDurationSec * Math.max(1, timeMultiplier);
+  const inGameDurationSec = realTimeDurationSec * Math.max(1, timeMultiplier);
 
   return {
-    totalRaceSeconds:         raceDurationSec,
-    lapTimeSeconds:           lapTimeSec,
+    totalRaceSeconds: raceDurationSec,
+    lapTimeSeconds: lapTimeSec,
     totalLaps,
     fuelRequired,
-    pitStopsRequired:         pitStops,
-    timeLostInPitsSeconds:    timeLostInPits,
+    pitStopsRequired: pitStops,
+    timeLostInPitsSeconds: timeLostInPits,
     effectiveRaceTimeSeconds: effectiveRaceTime,
-    realTimeDurationSeconds:  realTimeDurationSec,
-    inGameDurationSeconds:    inGameDurationSec,
+    realTimeDurationSeconds: realTimeDurationSec,
+    inGameDurationSeconds: inGameDurationSec,
     formatted: {
-      lapTime:           formatTime(lapTimeSec),
-      totalRaceTime:     formatDuration(totalRaceTime),
+      lapTime: formatTime(lapTimeSec),
+      totalRaceTime: formatDuration(totalRaceTime),
       effectiveRaceTime: formatDuration(effectiveRaceTime),
-      realTimeDuration:  formatDuration(realTimeDurationSec),
-      inGameDuration:    formatDuration(inGameDurationSec),
-      fuelRequired:      `${fuelRequired.toFixed(1)} L`,
-      pitStops:          String(pitStops),
-      timeLostInPits:    `${timeLostInPits.toFixed(0)} s`,
-      totalLaps:         String(totalLaps),
+      realTimeDuration: formatDuration(realTimeDurationSec),
+      inGameDuration: formatDuration(inGameDurationSec),
+      fuelRequired: `${fuelRequired.toFixed(1)} L`,
+      pitStops: String(pitStops),
+      timeLostInPits: `${timeLostInPits.toFixed(0)} s`,
+      totalLaps: String(totalLaps),
     },
   };
 }

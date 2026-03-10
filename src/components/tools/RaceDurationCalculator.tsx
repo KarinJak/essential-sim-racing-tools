@@ -30,7 +30,7 @@ export default function RaceDurationCalculator() {
   // Separate raw string for the time-multiplier input so the user can
   // fully clear the field before typing a new number.
   const [timeMultiplierRaw, setTimeMultiplierRaw] = useState<string>(
-    String(DEFAULT_INPUTS.timeMultiplier)
+    String(DEFAULT_INPUTS.timeMultiplier),
   );
 
   const results = useMemo(() => calculateRace(inputs), [inputs]);
@@ -53,7 +53,6 @@ export default function RaceDurationCalculator() {
     <div className={styles.layout}>
       {/* ── Inputs Panel ── */}
       <div className={styles.inputsPanel}>
-
         {/* Race Duration */}
         <section className={`glass-card ${styles.section}`}>
           <h3 className={styles.sectionTitle}>
@@ -174,7 +173,9 @@ export default function RaceDurationCalculator() {
           </h3>
           <div className={styles.inputRow}>
             <div className="input-group">
-              <label className="input-label" htmlFor="fuel-per-lap">Fuel / Lap (L)</label>
+              <label className="input-label" htmlFor="fuel-per-lap">
+                Fuel / Lap (L)
+              </label>
               <input
                 id="fuel-per-lap"
                 className="form-input"
@@ -187,7 +188,9 @@ export default function RaceDurationCalculator() {
               />
             </div>
             <div className="input-group">
-              <label className="input-label" htmlFor="tank-capacity">Tank Capacity (L)</label>
+              <label className="input-label" htmlFor="tank-capacity">
+                Tank Capacity (L)
+              </label>
               <input
                 id="tank-capacity"
                 className="form-input"
@@ -201,7 +204,9 @@ export default function RaceDurationCalculator() {
             </div>
           </div>
           <div className="input-group" style={{ marginTop: 'var(--space-md)' }}>
-            <label className="input-label" htmlFor="pit-stop-duration">Avg Pit Stop Duration (seconds)</label>
+            <label className="input-label" htmlFor="pit-stop-duration">
+              Avg Pit Stop Duration (seconds)
+            </label>
             <input
               id="pit-stop-duration"
               className="form-input"
@@ -222,13 +227,21 @@ export default function RaceDurationCalculator() {
             <span className={styles.sectionIcon}>🌅</span>
             Simulated Time (Day/Night Cycle)
           </h3>
-          <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: 'var(--space-md)' }}>
-            AMS2 lets you configure an in-game time multiplier so a 24-minute session
-            feels like a full 24-hour race. Set the multiplier to match your in-game setting.
+          <p
+            style={{
+              fontSize: '0.85rem',
+              color: 'var(--text-secondary)',
+              marginBottom: 'var(--space-md)',
+            }}
+          >
+            AMS2 lets you configure an in-game time multiplier so a 24-minute session feels like a
+            full 24-hour race. Set the multiplier to match your in-game setting.
           </p>
 
           <div className="input-group">
-            <label className="input-label" htmlFor="time-multiplier">Time Multiplier (×)</label>
+            <label className="input-label" htmlFor="time-multiplier">
+              Time Multiplier (×)
+            </label>
             <input
               id="time-multiplier"
               className="form-input"
@@ -242,7 +255,8 @@ export default function RaceDurationCalculator() {
               placeholder="1"
             />
             <p className="input-hint">
-              ×1 = real time &nbsp;|&nbsp; ×60 = 1 real minute = 1 in-game hour &nbsp;|&nbsp; ×1440 = 1 real minute = 1 in-game day
+              ×1 = real time &nbsp;|&nbsp; ×60 = 1 real minute = 1 in-game hour &nbsp;|&nbsp; ×1440
+              = 1 real minute = 1 in-game day
             </p>
           </div>
 
@@ -337,9 +351,14 @@ export default function RaceDurationCalculator() {
               <div className={styles.simNote}>
                 <span>💡</span>
                 <p>
-                  At ×{inputs.timeMultiplier}, your {results.formatted.realTimeDuration} session simulates{' '}
-                  <strong style={{ color: 'var(--accent-secondary)' }}>{results.formatted.inGameDuration}</strong> of in-game time.
-                  {inputs.timeMultiplier === 60 && ' Perfect for a 24-minute "24 Hours of Le Mans" style race!'}
+                  At ×{inputs.timeMultiplier}, your {results.formatted.realTimeDuration} session
+                  simulates{' '}
+                  <strong style={{ color: 'var(--accent-secondary)' }}>
+                    {results.formatted.inGameDuration}
+                  </strong>{' '}
+                  of in-game time.
+                  {inputs.timeMultiplier === 60 &&
+                    ' Perfect for a 24-minute "24 Hours of Le Mans" style race!'}
                 </p>
               </div>
             )}

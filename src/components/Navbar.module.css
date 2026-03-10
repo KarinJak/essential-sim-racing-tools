@@ -30,7 +30,9 @@
   transition: opacity var(--transition-fast);
 }
 
-.logo:hover { opacity: 0.85; }
+.logo:hover {
+  opacity: 0.85;
+}
 
 .logoFlag {
   font-size: 1.2rem;
@@ -57,7 +59,9 @@
 }
 
 @media (max-width: 480px) {
-  .logoSub { display: none; }
+  .logoSub {
+    display: none;
+  }
 }
 
 .nav {
@@ -73,14 +77,16 @@
   font-weight: 500;
   letter-spacing: 0.04em;
   color: var(--text-secondary);
-  transition: color var(--transition-fast), background var(--transition-fast);
+  transition:
+    color var(--transition-fast),
+    background var(--transition-fast);
   text-transform: uppercase;
   font-family: 'Rajdhani', sans-serif;
 }
 
 .navLink:hover {
   color: var(--text-primary);
-  background: rgba(255,255,255,0.06);
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .navLink.active {

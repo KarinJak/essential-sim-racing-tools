@@ -13,7 +13,8 @@ const tools = [
     name: 'Race Duration Calculator',
     game: 'Automobilista 2',
     gameShort: 'AMS2',
-    description: 'Calculate total laps, fuel needs, pit stops, and simulated in-game time with configurable time multipliers.',
+    description:
+      'Calculate total laps, fuel needs, pit stops, and simulated in-game time with configurable time multipliers.',
     icon: '⏱️',
     tags: ['Laps', 'Fuel', 'Pit Stops', 'Time Sim'],
     href: '/tools/ams2-race-duration',
@@ -23,7 +24,8 @@ const tools = [
     name: 'BoP Calculator',
     game: 'Assetto Corsa',
     gameShort: 'AC',
-    description: 'Calculate recommended Ballast and Restrictor values to balance your race grid based on fastest lap times.',
+    description:
+      'Calculate recommended Ballast and Restrictor values to balance your race grid based on fastest lap times.',
     icon: '⚖️',
     tags: ['Ballast', 'Restrictor', 'Balance'],
     href: '/tools/bop-calculator',
@@ -51,8 +53,10 @@ export default function ToolsPage() {
               <p className={styles.cardGame}>{tool.game}</p>
               <p className={styles.cardDesc}>{tool.description}</p>
               <div className={styles.cardTags}>
-                {tool.tags.map(t => (
-                  <span key={t} className={styles.tag}>{t}</span>
+                {tool.tags.map((t) => (
+                  <span key={t} className={styles.tag}>
+                    {t}
+                  </span>
                 ))}
               </div>
             </Link>

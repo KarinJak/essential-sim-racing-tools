@@ -32,7 +32,9 @@
   margin-bottom: var(--space-sm);
 }
 
-.icon { font-size: 2rem; }
+.icon {
+  font-size: 2rem;
+}
 
 .cardName {
   font-family: 'Rajdhani', sans-serif;
@@ -69,7 +71,7 @@
   letter-spacing: 0.06em;
   text-transform: uppercase;
   padding: 2px 8px;
-  background: rgba(255,255,255,0.04);
+  background: rgba(255, 255, 255, 0.04);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-full);
   color: var(--text-muted);

@@ -9,7 +9,8 @@ export default function Footer() {
           <p className={styles.tagline}>Race smarter, not harder.</p>
         </div>
         <p className={styles.copy}>
-          © {new Date().getFullYear()} Essential Sim Racing Tools &mdash; Built for sim racers, by sim racers.
+          © {new Date().getFullYear()} Essential Sim Racing Tools &mdash; Built for sim racers, by
+          sim racers.
         </p>
       </div>
     </footer>

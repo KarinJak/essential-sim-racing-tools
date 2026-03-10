@@ -75,7 +75,7 @@ export const TRACK_PRESETS: TrackPreset[] = [
     id: 'technical',
     label: 'Technical / Flowing',
     description: 'High-momentum corners, less heavy braking',
-    secondsPer10kg: 0.10,
+    secondsPer10kg: 0.1,
     examples: 'Brands Hatch, Zandvoort',
   },
   {
@@ -238,29 +238,36 @@ export function calculateBop(cars: BopCarEntry[], settings: BopSettings): BopOut
   // Step 1: Estimate the zero-BoP lap time for each car.
   // If the car already has ballast/restrictor, its actual pace is FASTER
   // than the entered time. We strip out the penalty to get the "raw" time.
-  const zeroBopTimes: { car: BopCarEntry; enteredTime: number; zeroBopTime: number; hadBop: boolean }[] =
-    validCars.map((car) => {
-      const enteredTime = entryToSeconds(car);
-      const penalty = existingBopPenalty(car, settings);
-      const hadBop = car.currentBallastKg > 0 || car.currentRestrictorPct > 0;
-      return {
-        car,
-        enteredTime,
-        zeroBopTime: enteredTime - penalty, // strip penalty → faster raw time
-        hadBop,
-      };
-    });
+  const zeroBopTimes: {
+    car: BopCarEntry;
+    enteredTime: number;
+    zeroBopTime: number;
+    hadBop: boolean;
+  }[] = validCars.map((car) => {
+    const enteredTime = entryToSeconds(car);
+    const penalty = existingBopPenalty(car, settings);
+    const hadBop = car.currentBallastKg > 0 || car.currentRestrictorPct > 0;
+    return {
+      car,
+      enteredTime,
+      zeroBopTime: enteredTime - penalty, // strip penalty → faster raw time
+      hadBop,
+    };
+  });
 
   // Step 1.5: Deduplicate — merge entries with the same car name.
   // Average their zero-BoP times for the most accurate estimate.
-  const deduped = new Map<string, {
-    key: string;
-    car: BopCarEntry;
-    avgZeroBopTime: number;
-    enteredTime: number;
-    hadBop: boolean;
-    count: number;
-  }>();
+  const deduped = new Map<
+    string,
+    {
+      key: string;
+      car: BopCarEntry;
+      avgZeroBopTime: number;
+      enteredTime: number;
+      hadBop: boolean;
+      count: number;
+    }
+  >();
 
   for (const entry of zeroBopTimes) {
     const key = entry.car.name.trim().toLowerCase();

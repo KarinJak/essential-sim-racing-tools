@@ -15,9 +15,13 @@ export default function AMS2RaceDurationPage() {
       <div className="container">
         {/* Breadcrumb */}
         <nav className={styles.breadcrumb} aria-label="Breadcrumb">
-          <Link href="/" className={styles.breadcrumbLink}>Home</Link>
+          <Link href="/" className={styles.breadcrumbLink}>
+            Home
+          </Link>
           <span className={styles.breadcrumbSep}>›</span>
-          <Link href="/tools" className={styles.breadcrumbLink}>Tools</Link>
+          <Link href="/tools" className={styles.breadcrumbLink}>
+            Tools
+          </Link>
           <span className={styles.breadcrumbSep}>›</span>
           <span className={styles.breadcrumbCurrent}>Race Duration Calculator</span>
         </nav>
