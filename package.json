@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "deploy": "vercel",
-    "deploy:prod": "vercel --prod"
+    "deploy:prod": "vercel --prod",
+    "kill:port": "for /f \"tokens=5\" %a in ('netstat -ano ^| findstr :3000 ^| findstr LISTENING') do taskkill /F /PID %a"
   },
   "dependencies": {
     "next": "16.1.6",

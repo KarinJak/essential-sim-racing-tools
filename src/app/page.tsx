@@ -13,6 +13,17 @@ const tools = [
     tags: ['Laps', 'Fuel', 'Pit Stops', 'Time Sim'],
     href: '/tools/ams2-race-duration',
   },
+  {
+    id: 'bop-calculator',
+    name: 'BoP Calculator',
+    game: 'Assetto Corsa',
+    gameShort: 'AC',
+    description: 'Calculate recommended Ballast and Restrictor values to balance your race grid based on fastest lap times.',
+    icon: '⚖️',
+    accentColor: 'cyan',
+    tags: ['Ballast', 'Restrictor', 'Balance'],
+    href: '/tools/bop-calculator',
+  },
 ];
 
 export default function HomePage() {
