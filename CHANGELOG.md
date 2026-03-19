@@ -1,5 +1,22 @@
 # CHANGELOG
 
+## 0.3.0 (2026-03-19)
+
+### Added
+
+- Add Car Setup Guide — interactive race engineer tool for all sims
+  - 9 handling problems (understeer, oversteer, poor turn-in, low traction, braking instability, high-speed instability, bouncing, excessive body roll, tyre wear)
+  - 3 corner phases (entry, mid, exit) with animated SVG corner diagram
+  - Ranked setup recommendations sorted by impact (high/medium/low)
+  - Setup Parameter Reference accordion with 16 parameters
+  - Ride Height & Rake Guide with optimal values per car class (GT3, GT4, Formula, Road)
+  - Step-by-step rake tuning guide and pro tips
+
+### Changed
+
+### Removed
+
+
 ## 0.2.1 (2026-03-11)
 
 ### Added

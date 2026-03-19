@@ -30,6 +30,17 @@ const tools = [
     tags: ['Ballast', 'Restrictor', 'Balance'],
     href: '/tools/bop-calculator',
   },
+  {
+    id: 'setup-guide',
+    name: 'Car Setup Guide',
+    game: 'All Sims',
+    gameShort: 'ALL',
+    description:
+      'Interactive race engineer — describe your handling problem and get tailored setup recommendations.',
+    icon: '🔧',
+    tags: ['Setup', 'Understeer', 'Oversteer', 'Tuning'],
+    href: '/tools/setup-guide',
+  },
 ];
 
 export default function ToolsPage() {
