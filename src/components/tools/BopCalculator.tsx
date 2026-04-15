@@ -311,14 +311,27 @@ export default function BopCalculator() {
             c.currentBallastKg === 0 &&
             c.currentRestrictorPct === 0
         );
+        let nextCars;
         if (isCurrentEmpty) {
-          return importedCars.length === 1 ? [...importedCars, emptyCarEntry()] : importedCars;
+          nextCars = importedCars.length === 1 ? [...importedCars, emptyCarEntry()] : importedCars;
         } else {
-          return [
+          nextCars = [
             ...prev.filter((c) => c.name.trim() !== '' || c.lapTimeMinutes > 0 || c.lapTimeSeconds > 0),
             ...importedCars,
           ];
         }
+
+        const detect10kg = autoDetectSecondsPer10kg(nextCars, settings);
+        const detect1Res = autoDetectSecondsPer1Restrictor(nextCars, settings);
+        if (detect10kg || detect1Res) {
+          setSettings(s => ({
+            ...s,
+            secondsPer10kg: detect10kg ? detect10kg.secondsPer10kg : s.secondsPer10kg,
+            secondsPer1Restrictor: detect1Res ? detect1Res.secondsPer1Restrictor : s.secondsPer1Restrictor
+          }));
+        }
+
+        return nextCars;
       });
     } else {
       alert('No valid lap times found in the JSON.');

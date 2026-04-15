@@ -7,6 +7,8 @@
 ### Changed
 
 - Fixed Load Recent button not loading saved settings
+- Added `TrackName` and `TrackConfig` metadata support for session imports
+- Improved JSON import to automatically apply auto-detected BoP settings (`Sec/10kg` & `Sec/1% Restr`)
 - Change import file to accept new lua app json pattern
 
 ### Removed
