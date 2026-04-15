@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## 0.4.1 (2026-04-15)
+
+### Added
+
+### Changed
+
+- Fixed Load Recent button not loading saved settings
+- Change import file to accept new lua app json pattern
+
+### Removed
+
+
 ## 0.4.0 (2026-04-15)
 
 ### Added

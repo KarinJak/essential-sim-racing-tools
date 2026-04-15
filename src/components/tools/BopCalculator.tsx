@@ -216,7 +216,7 @@ export default function BopCalculator() {
 
     let resultsArray = Array.isArray(jsonData)
       ? jsonData
-      : jsonData.Result || jsonData.sessionResult?.leaderBoardLines;
+      : jsonData.cars || jsonData.Result || jsonData.sessionResult?.leaderBoardLines;
 
     let isSinglePlayerRaceOut = false;
     if (jsonData.players && Array.isArray(jsonData.sessions)) {
@@ -262,16 +262,20 @@ export default function BopCalculator() {
       }
 
       for (const entry of resultsArray) {
-        const carModel = entry.CarModel || (entry.car && entry.car.carModel) || 'Unknown Car';
-        const bestLap = entry.BestLap || (entry.timing && entry.timing.bestLap) || 0;
-        let ballast = entry.BallastKG || 0;
-        let restrictor = entry.Restrictor || 0;
+        const carModel = entry.CarModel || (entry.car && entry.car.carModel) || entry.model || 'Unknown Car';
+        const driverName = entry.driver || entry.DriverName || entry.car?.drivers?.[0]?.firstName || undefined;
+        const bestLap = entry.BestLap || entry.bestLap || (entry.timing && entry.timing.bestLap) || 0;
+        let ballast = entry.BallastKG || entry.ballastKg || 0;
+        let restrictor = entry.Restrictor || entry.restrictorPct || 0;
 
         if (bestLap <= 0 || bestLap >= 99999999) continue;
 
-        const existing = carStats.get(carModel);
+        // Group by acCarId to preserve multiple drivers of the same car, otherwise group by carModel
+        const key = entry.acCarId !== undefined ? entry.acCarId : carModel;
+
+        const existing = carStats.get(key);
         if (!existing || bestLap < existing.bestLap) {
-          carStats.set(carModel, { bestLap, ballast, restrictor, carModel });
+          carStats.set(key, { bestLap, ballast, restrictor, carModel, driverName });
         }
       }
     }
