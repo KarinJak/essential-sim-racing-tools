@@ -1,5 +1,26 @@
 # CHANGELOG
 
+## 0.4.0 (2026-04-15)
+
+### Added
+
+- **Multi-Driver BoP Support**: Refactored data mapping to support multiple drivers using the same car model.
+- **ID-Based Precision Mapping**: Integrated `acCarId` tracking to perfectly map `race.ini` ballast/restrictors to specific session instances.
+- **Load Recent Session**: Added "Load Recent" button to allow manual restoration of previously imported data.
+- **Result Sorting**: Added dropdown to sort BoP results by Pace or Car Name (A-Z/Z-A).
+- **Independent Result Scrolling**: The Results panel is now sticky and internally scrollable, improving navigation with large car lists.
+- **Auto-Settings Detection**: The tool now triggers auto-detection of `Sec/10kg` and `Sec/1% Restr` immediately after mapping `race.ini` files.
+
+### Changed
+
+- Updated default Max Ballast limit from 50kg to 100kg.
+- Improved UI consistency for all import/action buttons.
+- Fixed visibility issues for native browser dropdowns in dark mode by applying `color-scheme: dark`.
+- Changed BoP Calculator to start with an empty list for a cleaner initial state.
+
+### Removed
+
+
 ## 0.3.0 (2026-03-19)
 
 ### Added

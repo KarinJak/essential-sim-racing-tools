@@ -2,6 +2,7 @@
 
 /* ── Design Tokens ────────────────────────────────── */
 :root {
+  color-scheme: dark;
   /* Background */
   --bg-base: #070710;
   --bg-surface: #0d0d1a;
@@ -10,9 +11,12 @@
   --bg-input: rgba(255, 255, 255, 0.05);
 
   /* Neon Accents */
-  --accent-primary: #e8ff00; /* neon yellow — main */
-  --accent-secondary: #00d4ff; /* cyan — secondary */
-  --accent-tertiary: #ff4d6d; /* red — danger / alert */
+  --accent-primary: #e8ff00;
+  /* neon yellow — main */
+  --accent-secondary: #00d4ff;
+  /* cyan — secondary */
+  --accent-tertiary: #ff4d6d;
+  /* red — danger / alert */
 
   /* Text */
   --text-primary: #f0f0fc;
@@ -110,12 +114,15 @@ h6 {
 h1 {
   font-size: clamp(2rem, 5vw, 3.5rem);
 }
+
 h2 {
   font-size: clamp(1.5rem, 3.5vw, 2.25rem);
 }
+
 h3 {
   font-size: clamp(1.2rem, 2.5vw, 1.5rem);
 }
+
 h4 {
   font-size: 1.125rem;
 }
@@ -150,24 +157,31 @@ code,
 .flex {
   display: flex;
 }
+
 .flex-col {
   flex-direction: column;
 }
+
 .items-center {
   align-items: center;
 }
+
 .justify-center {
   justify-content: center;
 }
+
 .justify-between {
   justify-content: space-between;
 }
+
 .gap-sm {
   gap: var(--space-sm);
 }
+
 .gap-md {
   gap: var(--space-md);
 }
+
 .gap-lg {
   gap: var(--space-lg);
 }
@@ -325,6 +339,11 @@ code,
   color: var(--text-muted);
 }
 
+option {
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+}
+
 /* ── Toggle / Checkbox ────────────────────────────── */
 .toggle-row {
   display: flex;
@@ -436,13 +455,16 @@ code,
 ::-webkit-scrollbar {
   width: 8px;
 }
+
 ::-webkit-scrollbar-track {
   background: var(--bg-base);
 }
+
 ::-webkit-scrollbar-thumb {
   background: var(--bg-elevated);
   border-radius: 4px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: var(--border-default);
 }
@@ -453,6 +475,7 @@ code,
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -460,10 +483,12 @@ code,
 }
 
 @keyframes pulse-glow {
+
   0%,
   100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0.6;
   }
@@ -476,9 +501,11 @@ code,
 .animate-fade-in-up-delay-1 {
   animation: fadeInUp 0.5s ease 0.1s both;
 }
+
 .animate-fade-in-up-delay-2 {
   animation: fadeInUp 0.5s ease 0.2s both;
 }
+
 .animate-fade-in-up-delay-3 {
   animation: fadeInUp 0.5s ease 0.3s both;
 }
@@ -488,6 +515,7 @@ code,
   .container {
     padding: 0 var(--space-md);
   }
+
   .section {
     padding: var(--space-2xl) 0;
   }

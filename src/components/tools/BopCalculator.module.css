@@ -346,6 +346,31 @@
   background: rgba(232, 255, 0, 0.04);
 }
 
+.importBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  background: rgba(0, 212, 255, 0.08);
+  color: var(--accent-secondary);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-transform: uppercase;
+}
+
+.importBtn:hover {
+  border-color: var(--accent-secondary);
+  background: rgba(0, 212, 255, 0.15);
+  box-shadow: 0 0 8px rgba(0, 212, 255, 0.2);
+}
+
 /* ── Advanced Settings ───────────────────────────── */
 .advancedToggle {
   display: flex;
@@ -395,10 +420,18 @@
 .resultsPanel {
   position: sticky;
   top: calc(var(--nav-height) + var(--space-lg));
+  max-height: calc(100vh - var(--nav-height) - var(--space-lg) * 2);
+  display: flex;
+  flex-direction: column;
 }
 
 .resultsCard {
   padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  max-height: 100%;
 }
 
 .resultsHeader {
@@ -406,6 +439,7 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: var(--space-lg);
+  flex-shrink: 0;
 }
 
 .resultsTitle {
@@ -441,6 +475,7 @@
   border: 1px solid rgba(232, 255, 0, 0.15);
   border-radius: var(--radius-sm);
   margin-bottom: var(--space-lg);
+  flex-shrink: 0;
 }
 
 .baselineLabel {
@@ -464,11 +499,15 @@
   color: var(--text-secondary);
 }
 
-/* ── Result Rows ──────────────────────────────────── */
 .resultsList {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+  padding-right: 8px;
+  /* space for scrollbar */
 }
 
 .resultRow {

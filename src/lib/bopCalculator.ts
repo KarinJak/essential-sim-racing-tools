@@ -10,6 +10,7 @@ export interface BopCarEntry {
   currentBallastKg: number;
   /** Current restrictor already applied to this car (%) */
   currentRestrictorPct: number;
+  acCarId?: number;
 }
 
 export interface BopSettings {
@@ -92,7 +93,7 @@ export const TRACK_PRESETS: TrackPreset[] = [
 export const DEFAULT_BOP_SETTINGS: BopSettings = {
   secondsPer10kg: 0.15,
   secondsPer1Restrictor: 0.17,
-  maxBallastKg: 50,
+  maxBallastKg: 100,
 };
 
 // ── Utility ──────────────────────────────────────────────────────────
