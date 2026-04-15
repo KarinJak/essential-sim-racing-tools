@@ -92,10 +92,11 @@ export default function BopCalculator() {
   }, []);
 
   useEffect(() => {
-    if (isClient) {
+    if (isClient && cars.length > 0) {
       try {
         localStorage.setItem('bopCalculatorSessionCars', JSON.stringify(cars));
         localStorage.setItem('bopCalculatorTrackName', trackName);
+        localStorage.setItem('bopCalculatorSettings', JSON.stringify(settings));
       } catch (e) { }
     }
 
@@ -149,9 +150,11 @@ export default function BopCalculator() {
   function loadRecentSession() {
     try {
       const savedSessionCars = localStorage.getItem('bopCalculatorSessionCars');
+      const savedSettings = localStorage.getItem('bopCalculatorSettings');
+
       if (savedSessionCars) {
         const parsed = JSON.parse(savedSessionCars);
-        if (Array.isArray(parsed) && parsed.length >= 0) {
+        if (Array.isArray(parsed) && parsed.length > 0) {
           setCars(parsed);
         } else {
           alert('No recent session found.');
@@ -159,8 +162,13 @@ export default function BopCalculator() {
       } else {
         alert('No recent session found.');
       }
+
       const savedTrack = localStorage.getItem('bopCalculatorTrackName');
       if (savedTrack) setTrackName(savedTrack);
+
+      if (savedSettings) {
+        setSettings(JSON.parse(savedSettings));
+      }
     } catch (e) {
       alert('Error loading recent session.');
     }
